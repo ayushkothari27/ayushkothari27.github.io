@@ -127,13 +127,13 @@ header{
     align-items: center;
     padding: 12px;
     font-size: 12px;
-    border: 2px solid white;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-left: 100px;
     border: none;
     font-family: inherit;
     text-align: center;
+    border: 2px solid white;
 }
 
 .services-image {
@@ -259,7 +259,6 @@ header{
     font-family: inherit;
     letter-spacing: 1.5px;
     margin-left: 170px;
-    border: 2.5px solid white;
     padding: 13px;
     font-size: 13px;
     text-transform: uppercase;
@@ -268,6 +267,7 @@ header{
     align-items: center;
     width: auto;
     text-align: center;
+    border: 2.5px solid white;
 }
 
 .verticle-line-1 {
