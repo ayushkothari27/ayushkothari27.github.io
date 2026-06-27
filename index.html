@@ -1,102 +1,306 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>Ayush's lil world</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" href="img/favicon.ico">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ayush</title>
+  <link rel="icon" href="img/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Playfair+Display:,300, 400, 700" rel="stylesheet">
+  <style>
+    :root {
+      --bg:     #1A1A2E;
+      --muted:  #9CA3AF;
+      --orange: #C8572E;
+      --yellow: #C99A30;
+      --indigo: #6366F1;
+      --pink:   #B85C8A;
+      --green:  #3A8F72;
+      --purple: #7A5BB0;
+      --rule:   rgba(255,255,255,0.07);
+    }
 
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/animate.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="fonts/fontawesome/css/font-awesome.min.css">
+    body {
+      background: var(--bg);
+      color: #F9FAFB;
+      font-family: 'Space Grotesk', sans-serif;
+      height: 100svh;
+      overflow: hidden;
+      cursor: none;
+    }
 
+    /* — cursor — */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--orange);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: transform 0.15s ease, background 0.2s ease;
+      mix-blend-mode: screen;
+    }
+    .cursor.big { transform: scale(4); background: var(--yellow); }
 
-    <!-- Theme Style -->
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
+    /* — blobs — */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.14;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .blob-1 { width: 500px; height: 500px; background: var(--yellow); top: -140px; right: -80px;  animation: drift 8s  ease-in-out infinite; }
+    .blob-2 { width: 320px; height: 320px; background: var(--pink);   bottom: -60px; left: -60px; animation: drift 11s ease-in-out infinite reverse; }
+    .blob-3 { width: 200px; height: 200px; background: var(--indigo); top: 45%;   right: 22%;    animation: drift 7s  ease-in-out infinite 2s; }
+    .blob-4 { width: 260px; height: 260px; background: var(--purple); bottom: 20%; left: 32%;    animation: drift 9s  ease-in-out infinite 1s; }
 
-    <div class="site-wrap">
+    @keyframes drift {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      33%       { transform: translate(28px,-18px) scale(1.05); }
+      66%       { transform: translate(-18px,14px) scale(0.95); }
+    }
 
-      <aside style="background-image: url(img/profile_big.jpg);"></aside>
-      <main>
-        <h1 class="mb-0">Hi, I'm Ayush</h1>
-        <div class="mb-5">
-        <p class="lead mb-3">Student &amp; Developer</p>
-        <p>The world around us is a crazy place and every single day we get more hang of our existence in such a crazy world. From what I have realized, my existence revolves around writing code, thinking about optimal solutions (or pretending to think about optimal solutions :p), watching good shows and football.</p>
-        <p>I am a Master's student at the University of Southern California in Computer Science. I have done my undergrad from the University of Mumbai with an aggregate CGPA of 9.61/10 </p>
-        <p>Any software which makes my life easy interests me.</p>
+    /* — page — */
+    .page {
+      position: relative;
+      z-index: 1;
+      height: 100svh;
+      display: flex;
+      align-items: center;
+      padding: clamp(1.8rem, 3.5vh, 2.8rem) clamp(2.5rem, 6vw, 5rem);
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .body-row {
+      display: contents;
+    }
+
+    /* — photo — */
+    .photo-wrap {
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .photo-wrap img {
+      width: clamp(240px, 28vw, 380px);
+      height: clamp(300px, 36vw, 500px);
+      border-radius: 1.5rem;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(15%);
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .photo-wrap:hover img {
+      filter: grayscale(0%);
+      transform: rotate(-1.5deg) scale(1.03);
+    }
+
+    .photo-badge {
+      position: absolute;
+      bottom: -10px; right: -10px;
+      background: var(--yellow);
+      color: #1A1A2E;
+      font-weight: 700;
+      font-size: 0.65rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      rotate: 8deg;
+      white-space: nowrap;
+    }
+
+    /* — content — */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.7rem, 1.4vh, 1.1rem);
+      min-height: 0;
+    }
+
+    .about-heading {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .about-heading em { font-style: italic; color: var(--yellow); }
+
+    .bio p {
+      font-size: clamp(0.82rem, 1.05vw, 0.95rem);
+      line-height: 1.7;
+      color: #D1D5DB;
+    }
+    .bio p + p { margin-top: 0.4rem; }
+
+    /* facts */
+    .facts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .fact {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      font-size: clamp(0.82rem, 1vw, 0.92rem);
+      color: #E5E7EB;
+    }
+
+    /* links */
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .lnk {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 0.6rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #1A1A2E;
+      border: 1.5px solid transparent;
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.15s ease;
+    }
+    .lnk:hover {
+      transform: translateY(-3px) rotate(-1deg);
+      box-shadow: 0 8px 20px -6px rgba(0,0,0,0.5);
+    }
+
+    .lnk-email   { background: #F5EDE8; border-color: var(--orange); }
+    .lnk-github  { background: #EDEEF7; border-color: #8688D4; }
+    .lnk-linkedin{ background: #E4EEF5; border-color: #3A7CA5; }
+    .lnk-twitter { background: #E8F3EE; border-color: var(--green); }
+    .lnk-insta   { background: #F5E8EE; border-color: var(--pink); }
+
+    /* — mobile — */
+    @media (max-width: 700px) {
+      body {
+        height: auto;
+        overflow-y: auto;
+      }
+
+      .page {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        padding: 2.5rem 1.5rem 3rem;
+        gap: 1.5rem;
+      }
+
+      .photo-wrap img {
+        width: min(75vw, 280px);
+        height: min(90vw, 340px);
+      }
+
+      .photo-badge {
+        font-size: 0.7rem;
+        right: -6px; bottom: -8px;
+      }
+
+      .content {
+        width: 100%;
+        gap: 1rem;
+      }
+
+      .about-heading { font-size: 1.9rem; }
+      .bio p         { font-size: 0.92rem; }
+      .fact          { font-size: 0.88rem; }
+      .lnk           { font-size: 0.85rem; padding: 0.5rem 1rem; }
+    }
+
+    @media (hover: none) {
+      body, a, button { cursor: auto; }
+      .cursor { display: none; }
+    }
+
+    a, button { cursor: none; }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+
+  <div class="page">
+
+    <div class="body-row">
+
+      <div class="photo-wrap">
+        <img src="img/profile_big.jpg" alt="Ayush">
+        <div class="photo-badge">USC Trojan ✌️</div>
+      </div>
+
+      <div class="content">
+
+        <h2 class="about-heading">a bit about <em>me.</em></h2>
+
+        <div class="bio">
+          <p>The world is a wild place - and every day I get a little more hang of it. I love building things, obsessing over good systems (or at least <em style="color:#9CA3AF">pretending to</em>), and anything football.</p>
+          <p>CS grad from <strong style="color:#C99A30">USC</strong>, currently SWE at <strong style="color:#C99A30">Coinbase</strong>, previously at <strong style="color:#C99A30">PayPal</strong>. Anything that makes life smoother? I want to build it.</p>
         </div>
 
-        <p>
-          <a href="https://docs.google.com/document/d/1KiXqeaE6WIZJP5VfG-12VIlOHux2NEq_WdRUxs8psWY/edit" class="mr-2 mb-2">Resume</a>
-          <a href="mailto:aayushkothari11@gmail.com" class="mr-2 mb-2">Email</a>
-          <a href="https://twitter.com/ayushKothari27" class="mr-2 mb-2">Twitter</a>
-          <a href="https://github.com/ayushkothari27" class="mr-2 mb-2">Github</a>
-          <a href="https://www.linkedin.com/in/ayushkothari27/" class="mr-2 mb-2">Linkedin</a>
-          <a href="https://www.instagram.com/ayushkothari27/" class="mr-2 mb-2">Instagram</a>
-          <a href="https://leetcode.com/ayushkothari27/" class="mr-2 mb-2">Leetcode</a>
-       </p>
-        <!-- <h2 class="mb-4 mt-5">Services</h2>
-        <div class="row">
-          <div class="col-md-6 col-lg-6 mb-4">
-            <div class="media custom-media  d-block">
-              <div class="icon mr-3"><span class="ion-android-cart"></span></div>
-              <div class="media-body">
-                <h3 class="mt-0"><a href="#">eCommerce Websites</a></h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed obcaecati totam.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-6 mb-4">
-            <div class="media custom-media  d-block">
-              <div class="icon mr-3"><span class="ion-bonfire"></span></div>
-              <div class="media-body">
-                <h3 class="mt-0"><a href="#">Branding Identity </a></h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed obcaecati, totam.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-6 mb-4">
-            <div class="media custom-media  d-block">
-              <div class="icon mr-3"><span class="ion-videocamera"></span></div>
-              <div class="media-body">
-                <h3 class="mt-0"><a href="#">Video Editing</a></h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed obcaecati totam.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-6 mb-4">
-            <div class="media custom-media  d-block">
-              <div class="icon mr-3"><span class="ion-cube"></span></div>
-              <div class="media-body">
-                <h3 class="mt-0"><a href="#">Web Applications </a></h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed obcaecati, totam.</p>
-              </div>
-            </div>
-          </div> -->
+        <div class="facts">
+          <div class="fact"><span>🎓</span><span>USC CS alum</span></div>
+          <div class="fact"><span>🥾</span><span>Hiking, new restaurants, board games & memes</span></div>
+          <div class="fact"><span>💻</span><span>SWE @ Coinbase</span></div>
+          <div class="fact"><span>⚽</span><span>Anything football - Messi is the GOAT, no debate</span></div>
+          <div class="fact"><span>🧠</span><span>Psychology - understanding people as much as code</span></div>
+          <div class="fact"><span>📺</span><span>Binge-watching TV series</span></div>
         </div>
 
-      </main>
+        <div class="links">
+          <a class="lnk lnk-email" href="mailto:aayushkothari11@gmail.com">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            email
+          </a>
+          <a class="lnk lnk-github" href="https://github.com/ayushkothari27" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            github
+          </a>
+          <a class="lnk lnk-linkedin" href="https://www.linkedin.com/in/ayushkothari27/" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            linkedin
+          </a>
+          <a class="lnk lnk-twitter" href="https://twitter.com/ayushKothari27" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            twitter
+          </a>
+          <a class="lnk lnk-insta" href="https://www.instagram.com/ayushkothari27/" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            instagram
+          </a>
+        </div>
+
+      </div>
+
     </div>
+  </div>
 
-    <!-- loader -->
-    <div id="loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#f4b214"/></svg></div>
-
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/jquery.waypoints.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/main.js"></script>
-
-  </body>
+  <script>
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX - 6 + 'px';
+      cursor.style.top  = e.clientY - 6 + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+    });
+  </script>
+</body>
 </html>
