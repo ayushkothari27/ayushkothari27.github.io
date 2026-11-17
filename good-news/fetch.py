@@ -64,6 +64,15 @@ def image_for(entry):
     return m.group(1) if m else None
 
 
+def article_for(entry):
+    """Reddit posts link to the thread; the real article is the "[link]" anchor."""
+    for c in entry.get("content") or [{"value": entry.get("summary", "")}]:
+        m = re.search(r'<a href="([^"]+)">\[link\]</a>', c.get("value") or "")
+        if m and "reddit.com" not in m.group(1):
+            return html.unescape(m.group(1))
+    return None
+
+
 def published(entry):
     t = entry.get("published_parsed") or entry.get("updated_parsed")
     if t:
@@ -95,6 +104,7 @@ def fetch(name, url, threshold):
             "source": name,
             "summary": summary,
             "image": image_for(e),
+            "article": article_for(e),
             "published": published(e).isoformat(timespec="seconds"),
             "score": round(score, 3),
         })
