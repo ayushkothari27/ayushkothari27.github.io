@@ -204,7 +204,7 @@
         const sources = [...new Set(data.items.map(i => i.source))].sort();
         items = data.items.map(i => ({ ...i, color: COLORS[sources.indexOf(i.source) % COLORS.length] }));
         meta.textContent = `${items.length} stories · updated ${ago(data.updated)}`;
-        renderFilters(sources);
+        if (sources.length > 1) renderFilters(sources); else filters.hidden = true;
         render();
       })
       .catch(() => {

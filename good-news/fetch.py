@@ -23,13 +23,7 @@ UA = "Mozilla/5.0 (compatible; good-news-feed/1.0)"
 # (name, url, threshold). Sources that are already positive by design get a
 # low bar; general news has to clear a high one.
 FEEDS = [
-    ("Good News Network", "https://www.goodnewsnetwork.org/feed/", 0.05),
-    ("Reasons to be Cheerful", "https://reasonstobecheerful.world/feed/", 0.05),
-    ("Optimist Daily", "https://www.optimistdaily.com/feed/", 0.05),
-    ("r/UpliftingNews", "https://www.reddit.com/r/UpliftingNews/top/.rss?t=day", 0.05),
-    ("Science Daily", "https://www.sciencedaily.com/rss/top/science.xml", 0.5),
-    ("NPR", "https://feeds.npr.org/1001/rss.xml", 0.6),
-    ("BBC", "https://feeds.bbci.co.uk/news/rss.xml", 0.6),
+    ("r/UpliftingNews", "https://www.reddit.com/r/UpliftingNews/top/.rss?t=week&limit=50", 0.05),
 ]
 
 # Hard no, whatever the sentiment score says ("killed it!" reads as positive).
@@ -113,6 +107,9 @@ def main():
     if OUT.exists():
         try:
             old = json.loads(OUT.read_text())["items"]
+            # Drop stories from sources that were removed from FEEDS.
+            names = {f[0] for f in FEEDS}
+            old = [i for i in old if i["source"] in names]
         except (ValueError, KeyError):
             pass
 
